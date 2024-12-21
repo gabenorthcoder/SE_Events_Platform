@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { Payload } from "../authService";
+import { User } from "../repository/entities/user";
+import { UserRepository } from "../repository/userRepository";
 
 dotenv.config();
 
@@ -11,10 +13,16 @@ if (!JWT_SECRET) {
 }
 
 export class AuthMiddlewareService {
-  static verifyToken(token: string): { valid: boolean; decoded?: Payload } {
+  async verifyToken(token: string): Promise<{ valid: boolean; user?: User }> {
     try {
       const decoded = jwt.verify(token, JWT_SECRET) as Payload;
-      return { valid: true, decoded };
+      if (!decoded) {
+        return { valid: false };
+      }
+      const userRepository = new UserRepository();
+
+      const user = await userRepository.findUserById(decoded.id);
+      return { valid: true, user };
     } catch (err) {
       return { valid: false };
     }

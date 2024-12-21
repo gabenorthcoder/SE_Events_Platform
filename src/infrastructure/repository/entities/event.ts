@@ -27,7 +27,7 @@ export class Event {
   @Column("text")
   description: string;
 
-  @Column({ type: "point", nullable: true, spatialFeatureType: "Point" })
+  @Column({ type: "jsonb", nullable: true })
   location: { lat: number; lon: number };
 
   @Column("date")

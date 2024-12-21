@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { UserRole } from "../../infrastructure/repository/entities/user";
+import { UserRole } from "../../../infrastructure/repository/entities/user";
 
 export const authorizeRole = (allowedRoles: UserRole[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {

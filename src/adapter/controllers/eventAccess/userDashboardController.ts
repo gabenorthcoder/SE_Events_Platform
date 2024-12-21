@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+
 const dashboard = express.Router();
 
 dashboard.get("/dashboard", async (req: Request, res: Response) => {
