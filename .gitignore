@@ -39,3 +39,9 @@ build/
 # Package manager lock files (optional, depends on your setup)
 package-lock.json
 yarn.lock
+
+#logger files
+combined.log
+combined.*
+*.combined.log
+
