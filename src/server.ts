@@ -1,17 +1,20 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import eventRoutes from "./adapter/routes/eventRoutes";
+import eventRoutes from "./adapter/routes/eventRoute";
+import { userRoutes } from "./adapter/routes/userRoutes";
+import { protectedRoutes } from "./adapter/routes/protectedRoutes";
 import { AppDataSource } from "./infrastructure/repository/dataSource";
+import logger from "./utils/logger";
 
 dotenv.config();
 
 async function startServer() {
   try {
     await AppDataSource.initialize();
-    console.log("Database connection established successfully.");
+    logger.info("Database connection established successfully.");
 
     const app = express();
     const port = process.env.PORT || 3000;
@@ -24,6 +27,7 @@ async function startServer() {
     };
 
     app.use(cors(corsOptions));
+    app.use(express.json());
 
     // Swagger definition (basic info for the API documentation)
     const swaggerDefinition = {
@@ -38,7 +42,7 @@ async function startServer() {
     // Options for `swagger-jsdoc` to dynamically generate OpenAPI spec
     const options = {
       swaggerDefinition,
-      apis: ["./src/adapter/routes/*.ts"], // Points to your route files for JSDoc comments
+      apis: ["./src/adapter/routes/*/*.ts"], // Points to your route files for JSDoc comments
     };
 
     const swaggerSpec = swaggerJSDoc(options);
@@ -48,13 +52,16 @@ async function startServer() {
 
     // Mount event routes at the root or specific path
     app.use("/", eventRoutes);
+    app.use("/user", userRoutes);
+    app.use("/auth", protectedRoutes);
 
     // Start the server
     app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+      logger.info(`Server running on port ${port}`);
+      logger.info("Swagger UI available at http://localhost:3000/api-docs");
     });
   } catch (error) {
-    console.error("Error connecting to the database", error);
+    logger.error("Error connecting to the database", error);
     process.exit(1);
   }
 }

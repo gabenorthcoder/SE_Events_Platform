@@ -10,7 +10,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { User } from "./user";
-import { UserEvent } from "./userEvent"; // Import UserEvent
+import { UserEvent } from "./userEvent";
 
 @Entity()
 export class Event {
@@ -30,10 +30,10 @@ export class Event {
   @Column({ type: "point", nullable: true, spatialFeatureType: "Point" })
   location: { lat: number; lon: number };
 
-  @Column()
+  @Column("date")
   date: Date;
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   isActive: boolean;
 
   @ManyToOne(() => User, (user) => user.createdEvents)
