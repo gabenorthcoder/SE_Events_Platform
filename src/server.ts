@@ -3,11 +3,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import eventRoutes from "./adapter/routes/eventRoute";
+import { eventRoutes } from "./adapter/routes/eventRoute";
 import { userRoutes } from "./adapter/routes/userRoutes";
-import { protectedRoutes } from "./adapter/routes/protectedRoutes";
+import { authRoutes } from "./adapter/routes/authRoutes";
 import { AppDataSource } from "./infrastructure/repository/dataSource";
 import logger from "./utils/logger";
+import passport from "passport";
+import "./infrastructure/googleStrategy";
 
 dotenv.config();
 
@@ -28,15 +30,26 @@ async function startServer() {
 
     app.use(cors(corsOptions));
     app.use(express.json());
+    app.use(passport.initialize());
 
     // Swagger definition (basic info for the API documentation)
     const swaggerDefinition = {
       openapi: "3.0.0",
       info: {
-        title: "Events Platform API",
-        description: "API documentation for the Events Platform",
+        title: "Events API",
         version: "1.0.0",
+        description: "API documentation for Events Platform",
       },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      security: [{ bearerAuth: [] }],
     };
 
     // Options for `swagger-jsdoc` to dynamically generate OpenAPI spec
@@ -51,9 +64,10 @@ async function startServer() {
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     // Mount event routes at the root or specific path
-    app.use("/", eventRoutes);
+
+    app.use("/events", eventRoutes);
     app.use("/user", userRoutes);
-    app.use("/auth", protectedRoutes);
+    app.use("/auth", authRoutes);
 
     // Start the server
     app.listen(port, () => {

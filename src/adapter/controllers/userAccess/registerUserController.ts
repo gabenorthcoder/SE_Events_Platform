@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import { RegisterUser } from "../../application/useCases/registerUser";
-import { isUserRegistrationBody } from "../../domain/registerUser";
-import { formatZodError } from "../../utils/requestChecker";
+import { RegisterUser } from "../../../application/useCases/registerUserUserCase";
+import { isUserRegistrationBody } from "../../../domain/registerUser";
+import { formatZodError } from "../../../utils/requestChecker";
 
 const registerUser = express.Router();
 
