@@ -8,8 +8,13 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from "typeorm";
-import { Event } from "./event"; // Import Event
-import { UserEvent } from "./userEvent"; // Import UserEvent
+import { Event } from "./event";
+import { UserEvent } from "./userEvent";
+
+export enum UserRole {
+  STAFF = 0,
+  USER = 1,
+}
 
 @Entity()
 export class User {
@@ -20,7 +25,7 @@ export class User {
   @Column({ type: "uuid", nullable: false })
   uuid: string;
 
-  @Column({ unique: true })
+  @Column({ type: "text", unique: true, nullable: false })
   email: string;
 
   @Column("text")
@@ -32,8 +37,12 @@ export class User {
   @Column("text")
   lastName: string;
 
-  @Column({ default: false })
-  isStaff: boolean;
+  @Column({
+    type: "enum",
+    enum: UserRole,
+    default: UserRole.USER,
+  })
+  role: UserRole;
 
   // One-to-many relation for created events
   @OneToMany(() => Event, (event) => event.createdBy)
