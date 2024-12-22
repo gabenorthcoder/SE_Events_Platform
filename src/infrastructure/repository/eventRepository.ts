@@ -33,6 +33,14 @@ export class EventRepository {
     return activeEvents;
   }
 
+  async findAllEvents(): Promise<Event[]> {
+    const events = await this.eventRepository.find();
+    if (!events) {
+      throw new Error("No events found");
+    }
+    return events;
+  }
+
   // Update an event
   async updateEvent(eventData: Event): Promise<Event> {
     const checkEvent = this.findEventById(eventData.id); // Check if the event exists
@@ -52,10 +60,6 @@ export class EventRepository {
   }
 
   async deleteEvent(id: number): Promise<void> {
-    const checkEvent = this.findEventById(id); // Check if the event exists
-    if (!checkEvent) {
-      throw new Error(`Event with id ${id} not found`);
-    }
     await this.eventRepository.delete(id);
   }
 }

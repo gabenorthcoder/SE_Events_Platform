@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import { Payload } from "../authService";
 import { User } from "../repository/entities/user";
 import { UserRepository } from "../repository/userRepository";
+import logger from "../../utils/logger";
 
 dotenv.config();
 
 const JWT_SECRET = String(process.env.JWT_SECRET);
 
 if (!JWT_SECRET) {
+  logger.error("JWT_SECRET is not defined in the environment variables.");
   throw new Error("JWT_SECRET is not defined in the environment variables.");
 }
 

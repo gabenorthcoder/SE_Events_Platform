@@ -1,10 +1,16 @@
 import { z } from "zod";
 import { UserRole } from "../infrastructure/repository/entities/user";
 
-const userRoleSchema = z.union(
-  [z.literal(UserRole.STAFF), z.literal(UserRole.USER)],
+export const userRoleSchema = z.union(
+  [
+    z.literal(UserRole.ADMIN),
+    z.literal(UserRole.STAFF),
+    z.literal(UserRole.USER),
+  ],
   {
-    errorMap: () => ({ message: "Value must be either 0 (STAFF) or 1 (USER)" }),
+    errorMap: () => ({
+      message: "Value must be either 0 (ADMIN), 1 (STAFF) or 2 (USER)",
+    }),
   }
 );
 
@@ -19,14 +25,17 @@ export const userRegistrationSchema = z.object({
   role: userRoleSchema,
 });
 
-export type UserRegistration = z.infer<typeof userRegistrationSchema>;
+export type UserRegistrationInput = z.infer<typeof userRegistrationSchema>;
 
 export const isUserRegistrationBody = (
   value: unknown
-): { success: boolean; error?: z.ZodError; data?: UserRegistration } => {
+): { success: boolean; error?: z.ZodError; data?: UserRegistrationInput } => {
   const validationResult = userRegistrationSchema.safeParse(value);
   if (validationResult.success) {
-    return { success: true, data: validationResult.data as UserRegistration };
+    return {
+      success: true,
+      data: validationResult.data as UserRegistrationInput,
+    };
   }
   return { success: false, error: validationResult.error };
 };

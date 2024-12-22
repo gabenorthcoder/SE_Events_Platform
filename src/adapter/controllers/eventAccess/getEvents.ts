@@ -6,10 +6,10 @@ const getEvents = express.Router();
 getEvents.get("/read", async (req: Request, res: Response) => {
   try {
     // Initialize the use case
-    const getEventsUseCase = new GetEventsUseCase();
+    const useCase = new GetEventsUseCase();
 
     // Execute the use case to fetch all active events
-    const events = await getEventsUseCase.execute();
+    const events = await useCase.execute();
 
     res.status(200).json(events);
   } catch (e: unknown) {

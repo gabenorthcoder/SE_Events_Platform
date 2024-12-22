@@ -8,6 +8,8 @@ const registrationRoute = Router();
  *   post:
  *     summary: Registers a new user
  *     description: This endpoint allows a new user to be registered with their details.
+ *     tags:
+ *      - Users
  *     requestBody:
  *       content:
  *         application/json:
@@ -33,9 +35,10 @@ const registrationRoute = Router();
  *               role:
  *                 type: number
  *                 enum:
- *                   - 0  # USER
+ *                   - 0  # ADMIN
  *                   - 1  # STAFF
- *                 description: The user's role, either USER (0) or STAFF (1)
+ *                   - 2  # USER
+ *                 description: The user's role, either 0 (ADMIN), 1 (STAFF) or 2 (USER)
  *                 example: 1
  *     responses:
  *       201:

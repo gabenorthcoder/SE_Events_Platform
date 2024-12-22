@@ -7,11 +7,11 @@ export class UserEvent {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.userEvents)
-  @JoinColumn({ name: "userId" }) // This will create a column 'userId' in the join table
+  @ManyToOne(() => User, (user) => user.userEvents, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "userId" })
   user: User;
 
-  @ManyToOne(() => Event, (event) => event.userEvents)
-  @JoinColumn({ name: "eventId" }) // This will create a column 'eventId' in the join table
+  @ManyToOne(() => Event, (event) => event.userEvents, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "eventId" })
   event: Event;
 }

@@ -19,6 +19,15 @@ export class UserEventRepository {
 
     return userEvent;
   }
+  async findEventsByUserId(userId: number): Promise<Event[]> {
+    const userEvents = await this.userEventRepository.find({
+      where: { user: { id: userId } },
+      relations: ["event"], // Include the event details
+    });
+
+    // Extract and return the event details
+    return userEvents.map((userEvent) => userEvent.event);
+  }
 
   async createUserEvent(user: User, event: Event): Promise<UserEvent> {
     const userEvent = this.userEventRepository.create({ user, event });

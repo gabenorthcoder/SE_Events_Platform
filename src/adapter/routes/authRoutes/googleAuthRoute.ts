@@ -12,6 +12,8 @@ const googleAuthRoute = Router();
  *   get:
  *     summary: Redirect to Google for authentication
  *     description: Initiates Google OAuth2 login.
+ *     tags:
+ *      - Authentication
  *     responses:
  *       302:
  *         description: Redirects to Google's login page.
@@ -26,6 +28,8 @@ googleAuthRoute.get("/google", google);
  *   get:
  *     summary: Handle Google authentication callback
  *     description: Handles the callback after Google authentication, logs in the user, and returns a JWT.
+ *     tags:
+ *      - Authentication
  *     responses:
  *       200:
  *         description: Successfully authenticated.

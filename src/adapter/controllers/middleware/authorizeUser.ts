@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { UserRole } from "../../../infrastructure/repository/entities/user";
+import {
+  User,
+  UserRole,
+} from "../../../infrastructure/repository/entities/user";
 
 export const authorizeRole = (allowedRoles: UserRole[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     // Ensure user is set (by validateToken)
-    const user = req.user;
+    const user = req.user as User;
+
     if (!user) {
       res
         .status(401)

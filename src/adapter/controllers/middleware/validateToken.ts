@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthMiddlewareService } from "../../../infrastructure/middleware/authMiddlewareService";
-import { User } from "../../../infrastructure/repository/entities/user";
 
 declare global {
   namespace Express {
