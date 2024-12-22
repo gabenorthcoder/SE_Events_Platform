@@ -30,8 +30,8 @@ createEvent.post("/create", async (req: Request, res: Response) => {
     }
 
     // Use the use case to create the event
-    const createEventUseCase = new CreateEventUseCase();
-    const newEvent = await createEventUseCase.execute(validEventData, user);
+    const useCase = new CreateEventUseCase();
+    const newEvent = await useCase.execute(validEventData, user);
 
     res
       .status(201)

@@ -1,21 +1,22 @@
 import { UserRepository } from "../../infrastructure/repository/userRepository";
 import { User } from "../../infrastructure/repository/entities/user";
 import bcrypt from "bcryptjs";
-import { UserRegistration } from "../../domain/registerUser";
+import { UserRegistrationInput } from "../../domain/registerUser";
 
-export class RegisterUser {
+export class RegisterUserUserCase {
   private userRepository: UserRepository;
 
   constructor() {
     this.userRepository = new UserRepository();
   }
 
-  async execute(userData: UserRegistration): Promise<User> {
-    const existingUser = await this.userRepository.findUserByEmail(
-      userData.email
+  async execute(userData: UserRegistrationInput): Promise<Partial<User>> {
+    const existingUser = await this.userRepository.userExisit(
+      userData.email,
+      userData.role
     );
     if (existingUser) {
-      throw new Error("Email already in use");
+      throw new Error("User already exists");
     }
 
     // Hash password

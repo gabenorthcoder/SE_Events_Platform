@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { isUserLoginBody } from "../../../domain/loginUser";
-import { LoginUser } from "../../../application/useCases/loginUserUserCase";
+import { LoginUserUserCase } from "../../../application/useCases/loginUserUserCase";
 import { formatZodError } from "../../../utils/requestChecker";
 
 const loginUser = express.Router();
@@ -17,8 +17,8 @@ loginUser.post("/login", async (req: Request, res: Response) => {
     }
 
     const validUserLoginBody = isValidBody.data!;
-    const loginUser = new LoginUser();
-    const loggedUser = await loginUser.execute(validUserLoginBody);
+    const useCase = new LoginUserUserCase();
+    const loggedUser = await useCase.execute(validUserLoginBody);
 
     res.status(200).json({ message: "Login successful", loggedUser });
   } catch (e: unknown) {

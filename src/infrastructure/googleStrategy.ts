@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { UserRepository } from "./repository/userRepository";
+import { User, UserRole } from "./repository/entities/user";
 
 passport.use(
   new GoogleStrategy(
@@ -17,13 +18,14 @@ passport.use(
         let user = await userRepository.findUserByEmail(email);
 
         if (!user) {
-          user = await userRepository.createUser({
-            email,
-            firstName: profile.name?.givenName || "GoogleUser",
-            lastName: profile.name?.familyName || "GoogleUser",
-            password: "",
-            role: 1,
-          });
+          const googleUser = new User();
+          googleUser.email = email;
+          (googleUser.firstName = profile.name?.givenName || "GoogleUser"),
+            (googleUser.lastName = profile.name?.familyName || "GoogleUser"),
+            (googleUser.role = UserRole.USER);
+
+          // Create a new user if not found
+          user = (await userRepository.createUser(googleUser)) as User;
         }
 
         done(null, user);

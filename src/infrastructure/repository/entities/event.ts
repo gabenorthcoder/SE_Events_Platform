@@ -30,7 +30,7 @@ export class Event {
   @Column({ type: "jsonb", nullable: true })
   location: { lat: number; lon: number };
 
-  @Column("date")
+  @Column("timestamptz")
   date: Date;
 
   @Column({ type: "boolean", default: true })

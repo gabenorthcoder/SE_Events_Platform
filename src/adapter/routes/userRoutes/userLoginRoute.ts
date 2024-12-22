@@ -9,6 +9,8 @@ const loginRoute = Router();
  *   post:
  *     summary: Log in a user
  *     description: This endpoint allows a user to log in by providing their email and password.
+ *     tags:
+ *      - Users
  *     requestBody:
  *       required: true
  *       content:

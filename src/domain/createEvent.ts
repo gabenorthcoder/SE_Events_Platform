@@ -14,14 +14,14 @@ export const createEventSchema = z.object({
   }),
 });
 
-export type CreateEvent = z.infer<typeof createEventSchema>;
+export type CreateEventInput = z.infer<typeof createEventSchema>;
 
 export const isCreateEventBody = (
   value: unknown
-): { success: boolean; error?: z.ZodError; data?: CreateEvent } => {
+): { success: boolean; error?: z.ZodError; data?: CreateEventInput } => {
   const validationResult = createEventSchema.safeParse(value);
   if (validationResult.success) {
-    return { success: true, data: validationResult.data as CreateEvent };
+    return { success: true, data: validationResult.data as CreateEventInput };
   }
   return { success: false, error: validationResult.error };
 };

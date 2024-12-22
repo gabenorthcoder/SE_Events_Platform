@@ -7,6 +7,16 @@ const signupEvent = express.Router();
 signupEvent.post("/:id/signup", async (req: Request, res: Response) => {
   try {
     const { id } = req.params; // Event ID from the route parameter
+    const numericId = Number(id);
+
+    // Check if numericId is a positive integer
+    if (!Number.isInteger(numericId) || numericId <= 0) {
+      res
+        .status(400)
+        .json({
+          message: "Invalid ID. It must be a positive integer greater than 0.",
+        });
+    }
 
     // Get the authenticated user (from middleware, assume `req.user` exists)
     const user = req.user as User | undefined;
@@ -16,8 +26,8 @@ signupEvent.post("/:id/signup", async (req: Request, res: Response) => {
     }
 
     // Use the use case to sign up for the event
-    const signupForEventUseCase = new SignupEventUseCase();
-    const signupResult = await signupForEventUseCase.execute(Number(id), user);
+    const useCase = new SignupEventUseCase();
+    const signupResult = await useCase.execute(Number(id), user);
 
     res.status(201).json({
       message: "User successfully signed up for the event",

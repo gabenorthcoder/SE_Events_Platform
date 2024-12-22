@@ -7,14 +7,6 @@ import logger from "../../../utils/logger";
 const google = Router();
 const googleCallBack = Router();
 
-interface GoogleOAuthProfile {
-  emails?: { value: string }[];
-  name?: {
-    givenName?: string;
-    familyName?: string;
-  };
-}
-
 google.get(
   "/google",
   passport.authenticate("google", {
@@ -35,19 +27,13 @@ googleCallBack.get(
       const user = req.user as User; // Ensure proper typing
 
       // Use the existing use case to generate a JWT for the authenticated user
-      const googleAuthUseCase = new GoogleAuthUseCase();
-      const userWithToken = await googleAuthUseCase.authenticateUser(user);
+      const useCase = new GoogleAuthUseCase();
+      const loggedUser = await useCase.authenticateUser(user);
 
       // Respond with the JWT token and user details
       res.json({
-        message: "Logged in successfully",
-        token: userWithToken.token,
-        user: {
-          id: userWithToken.id,
-          email: userWithToken.email,
-          firstName: userWithToken.firstName,
-          lastName: userWithToken.lastName,
-        },
+        message: "Login successful",
+        loggedUser,
       });
     } catch (error) {
       logger.error("Error during Google authentication:", error);
