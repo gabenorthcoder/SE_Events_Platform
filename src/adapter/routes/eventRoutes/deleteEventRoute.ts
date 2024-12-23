@@ -36,7 +36,7 @@ const deleteEventRoute = Router();
 deleteEventRoute.delete(
   "/:id/delete",
   validateToken,
-  authorizeRole([UserRole.STAFF]),
+  authorizeRole([UserRole.STAFF, UserRole.ADMIN]),
   deleteEvent
 );
 

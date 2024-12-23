@@ -73,7 +73,7 @@ const getEventRoute = Router();
 getEventRoute.get(
   "/read",
   validateToken,
-  authorizeRole([UserRole.USER]),
+  authorizeRole([UserRole.USER, UserRole.ADMIN, UserRole.STAFF]),
   getEvents
 );
 

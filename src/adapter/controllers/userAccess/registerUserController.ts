@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { RegisterUserUserCase } from "../../../application/useCases/registerUserUserCase";
+import { RegisterUserUseCase } from "../../../application/useCases/registerUserUseCase";
 import { isUserRegistrationBody } from "../../../domain/registerUser";
 import { formatZodError } from "../../../utils/requestChecker";
 
@@ -16,7 +16,7 @@ registerUser.post("/register", async (req: Request, res: Response) => {
       return;
     }
     const validUserRegistrationBody = isValidBody.data!;
-    const useCase = new RegisterUserUserCase();
+    const useCase = new RegisterUserUseCase();
     const newUser = await useCase.execute(validUserRegistrationBody);
 
     res

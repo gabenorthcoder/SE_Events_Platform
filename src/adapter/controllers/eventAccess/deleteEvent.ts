@@ -13,6 +13,7 @@ deleteEvent.delete("/:id/delete", async (req: Request, res: Response) => {
       res.status(400).json({
         message: "Invalid ID. It must be a positive integer greater than 0.",
       });
+      return;
     }
 
     const useCase = new DeleteEventUseCase();

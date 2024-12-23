@@ -1,7 +1,7 @@
 {
   "name": "se_events_platform",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon --config ./nodemon.json --exec tsx src/server.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",

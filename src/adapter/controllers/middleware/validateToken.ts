@@ -30,4 +30,5 @@ export const validateToken = async (
   } else {
     res.status(403).json({ message: "Unauthorized: Invalid token" });
   }
+  return;
 };

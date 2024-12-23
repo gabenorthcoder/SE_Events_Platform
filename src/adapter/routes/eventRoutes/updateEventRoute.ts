@@ -67,7 +67,7 @@ const updateEventRoute = Router();
 updateEventRoute.put(
   "/:id/update",
   validateToken,
-  authorizeRole([UserRole.STAFF]),
+  authorizeRole([UserRole.STAFF, UserRole.ADMIN]),
   updateEvent
 );
 

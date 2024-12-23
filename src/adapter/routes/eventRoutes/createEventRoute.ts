@@ -145,7 +145,7 @@ const createEventRouter = Router();
 createEventRouter.post(
   "/create",
   validateToken,
-  authorizeRole([UserRole.STAFF]),
+  authorizeRole([UserRole.STAFF, UserRole.ADMIN]),
   createEvent
 );
 export { createEventRouter };

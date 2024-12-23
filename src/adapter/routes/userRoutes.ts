@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { registrationRoute } from "./userRoutes/userRegistrationRoute";
 import { loginRoute } from "./userRoutes/userLoginRoute";
-import { listUserEventsRoute } from "./userRoutes/listUserEventsRoute";
+import { registerRoute } from "./userRoutes/userRegisterRoute";
 
 const userRoutes = Router();
-userRoutes.use(registrationRoute);
 userRoutes.use(loginRoute);
-userRoutes.use(listUserEventsRoute);
+userRoutes.use(registerRoute);
 
 export { userRoutes };

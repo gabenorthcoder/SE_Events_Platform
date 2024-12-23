@@ -2,7 +2,6 @@ import { EventRepository } from "../../infrastructure/repository/eventRepository
 import { Event } from "../../infrastructure/repository/entities/event";
 import { CreateEventInput } from "../../domain/createEvent";
 import { User, UserRole } from "../../infrastructure/repository/entities/user";
-import logger from "../../utils/logger";
 
 export class CreateEventUseCase {
   private eventRepository: EventRepository;
@@ -12,11 +11,6 @@ export class CreateEventUseCase {
   }
 
   async execute(eventData: CreateEventInput, user: User): Promise<Event> {
-    if (!user || user.role !== UserRole.STAFF) {
-      logger.warn(`Unauthorized Event Creation: ${user} is required`);
-      throw new Error("Unauthorized: User is required");
-    }
-
     // Create and save the event
     const newEvent = await this.eventRepository.createEvent({
       ...eventData,

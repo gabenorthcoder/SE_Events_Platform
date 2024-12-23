@@ -5,6 +5,30 @@ import logger from "../../utils/logger";
 export class UserRepository {
   private userRepository = AppDataSource.getRepository(User);
 
+  async findAllUsers(): Promise<User[]> {
+    const allUsers = await this.userRepository.find({
+      order: {
+        id: "ASC",
+      },
+    });
+    return allUsers;
+  }
+
+  async findAllUsersByRole(role: UserRole): Promise<User[]> {
+    if (!Object.values(UserRole).includes(role)) {
+      logger.error(`Invalid role: ${role}`);
+      throw new Error("Invalid role");
+    }
+    const allUsersByRole = await this.userRepository.find({ where: { role } });
+
+    return allUsersByRole;
+  }
+
+  async findUsersByEmail(email: string): Promise<User[]> {
+    const userByEmail = await this.userRepository.find({ where: { email } });
+    return userByEmail;
+  }
+
   async findUserByEmail(email: string): Promise<User | null> {
     const userByEmail = await this.userRepository.findOne({ where: { email } });
     return userByEmail;
@@ -33,5 +57,13 @@ export class UserRepository {
     // Remove the password field from the saved user object
     const { password, ...userWithoutPassword } = savedUser;
     return userWithoutPassword;
+  }
+
+  async updateUser(user: User): Promise<User> {
+    return await this.userRepository.save(user);
+  }
+
+  async deleteUser(userId: number): Promise<void> {
+    await this.userRepository.delete(userId);
   }
 }
