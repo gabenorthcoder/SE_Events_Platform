@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
 import { ListUserEventsUseCase } from "../../../application/useCases/listUserEventsUseCase";
+import { User } from "../../../infrastructure/repository/entities/user";
 
 const listUserEvents = express.Router();
 
 listUserEvents.get("/:id/events", async (req: Request, res: Response) => {
   try {
+    const loggerUser = req.user as User;
     const { id } = req.params; // Event ID from the route parameter
     const numericId = Number(id);
 
@@ -16,7 +18,7 @@ listUserEvents.get("/:id/events", async (req: Request, res: Response) => {
       return;
     }
     const useCase = new ListUserEventsUseCase();
-    const events = await useCase.execute(Number(id));
+    const events = await useCase.execute(loggerUser, Number(id));
     res.status(200).json(events);
   } catch (e: unknown) {
     const errorMessage = e instanceof Error ? e.message : String(e);

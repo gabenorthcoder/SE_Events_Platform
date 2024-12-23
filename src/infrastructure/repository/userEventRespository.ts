@@ -19,18 +19,29 @@ export class UserEventRepository {
 
     return userEvent;
   }
-  async findEventsByUserId(userId: number): Promise<Event[]> {
+
+  async findAllUserEvents(): Promise<UserEvent[]> {
+    const userEvents = await this.userEventRepository.find({
+      relations: ["user", "event"],
+    });
+    return userEvents;
+  }
+  async findEventsByUserId(userId: number): Promise<UserEvent[]> {
     const userEvents = await this.userEventRepository.find({
       where: { user: { id: userId } },
       relations: ["event"], // Include the event details
     });
 
     // Extract and return the event details
-    return userEvents.map((userEvent) => userEvent.event);
+    return userEvents;
   }
 
   async createUserEvent(user: User, event: Event): Promise<UserEvent> {
     const userEvent = this.userEventRepository.create({ user, event });
     return await this.userEventRepository.save(userEvent);
+  }
+
+  async undoUserEvent(userEvent: UserEvent): Promise<void> {
+    await this.userEventRepository.remove(userEvent);
   }
 }

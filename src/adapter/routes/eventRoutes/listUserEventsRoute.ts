@@ -8,12 +8,12 @@ const listUserEventsRoute = Router();
 
 /**
  * @openapi
- * /users/{id}/events:
+ * /events/{id}/events:
  *   get:
  *     summary: Get events signed up by the user
  *     description: Retrieve all events that the specified user has signed up for.
  *     tags:
- *      - Users
+ *      - Events
  *     parameters:
  *       - in: path
  *         name: id
