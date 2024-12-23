@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { listUserEvents } from "../../controllers/userAccess/listUserEvents";
+import { listUserEvents } from "../../controllers/eventAccess/listUserEvents";
 import { validateToken } from "../../controllers/middleware/validateToken";
 import { authorizeRole } from "../../controllers/middleware/authorizeUser";
 import { UserRole } from "../../../infrastructure/repository/entities/user";
@@ -56,7 +56,7 @@ const listUserEventsRoute = Router();
 listUserEventsRoute.get(
   "/:id/events",
   validateToken,
-  authorizeRole([UserRole.USER, UserRole.STAFF]),
+  authorizeRole([UserRole.USER, UserRole.STAFF, UserRole.ADMIN]),
   listUserEvents
 );
 

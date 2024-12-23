@@ -106,7 +106,7 @@ export class AuthService {
   async generateTokenForUser(user: User): Promise<Partial<UserLoginSuccess>> {
     const payload = this.buildUserPayload(user);
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "3h" });
     const { password, ...userWithoutPassword } = user;
     const userWithToken = {
       ...userWithoutPassword,
@@ -118,7 +118,7 @@ export class AuthService {
   private async generateTokenForSuperAdmin(): Promise<SuperAdminLoginSuccess> {
     const payload = this.buildSuperAdminPayload();
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "3h" });
     const superAdmin = {
       firstName: "Super Admin",
       role: "superAdmin",

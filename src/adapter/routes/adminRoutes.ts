@@ -1,9 +1,14 @@
-// import { Router } from "express";
-// import { superAdminloginRoute } from "./superAdminRoutes/superAdminLoginRoute";
-// import { superAdminRegistrationRoute } from "./superAdminRoutes/superAdminRegistrationRoute";
+import { Router } from "express";
+import { registerAdminRoute } from "./adminRoutes/adminRegistrationRoute";
+import { updateAdminRoute } from "./adminRoutes/adminUpdateUserRoute";
+import { listAdminRoute } from "./adminRoutes/adminListUsersRoute";
+import { deleteAdminRoute } from "./adminRoutes/adminDeleteUserRoute";
 
-// const superAdminRoutes = Router();
-// superAdminRoutes.use(superAdminloginRoute);
-// superAdminRoutes.use(superAdminRegistrationRoute);
+const adminRoutes = Router();
 
-// export { superAdminRoutes };
+adminRoutes.use(registerAdminRoute);
+adminRoutes.use(updateAdminRoute);
+adminRoutes.use(listAdminRoute);
+adminRoutes.use(deleteAdminRoute);
+
+export { adminRoutes };

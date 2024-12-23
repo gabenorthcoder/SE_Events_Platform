@@ -3,17 +3,26 @@ import { User, UserRole } from "../../infrastructure/repository/entities/user";
 import bcrypt from "bcryptjs";
 import { UserRegistrationInput } from "../../domain/registerUser";
 
-export class RegisterUserUseCase {
+export class RegisterAdminUseCase {
   private userRepository: UserRepository;
 
   constructor() {
     this.userRepository = new UserRepository();
   }
 
-  async execute(userData: UserRegistrationInput): Promise<Partial<User>> {
-    if (userData.role === UserRole.ADMIN || userData.role === UserRole.STAFF) {
-      throw new Error("Admin and staff roles are not allowed to register");
+  async execute(
+    userData: UserRegistrationInput,
+    user: User
+  ): Promise<Partial<User>> {
+    if (user.role === UserRole.STAFF && userData.role !== UserRole.USER) {
+      throw new Error(
+        "Staff role is not allowed to register Admin or Staff members"
+      );
     }
+    if (userData.role === UserRole.ADMIN && userData.role === UserRole.ADMIN) {
+      throw new Error("Admin role is not allowed to register another admin");
+    }
+
     const existingUser = await this.userRepository.userExisit(
       userData.email,
       userData.role

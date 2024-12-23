@@ -15,7 +15,7 @@ export class UpdateEventUseCase {
   async execute(
     eventId: number,
     data: updateEventInput,
-    staffUser: User
+    loggerUser: User
   ): Promise<Event> {
     // Validate the event exists
     const event = await this.eventRepository.findEventById(eventId);
@@ -28,7 +28,7 @@ export class UpdateEventUseCase {
     _.merge(event, data);
 
     // Set the updatedBy field
-    event.updatedBy = staffUser;
+    event.updatedBy = loggerUser;
 
     // Save the changes
     return await this.eventRepository.updateEvent(event);

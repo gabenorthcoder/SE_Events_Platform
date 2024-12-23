@@ -34,8 +34,10 @@ export class EventRepository {
   }
 
   async findAllEvents(): Promise<Event[]> {
-    const events = await this.eventRepository.find();
-    if (!events) {
+    const events = await this.eventRepository.find({
+      relations: ["createdBy", "updatedBy"],
+    });
+    if (!events || events.length === 0) {
       throw new Error("No events found");
     }
     return events;

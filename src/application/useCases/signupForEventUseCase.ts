@@ -18,8 +18,8 @@ export class SignupEventUseCase {
   ): Promise<{ event: Event; user: User }> {
     // Check if the event exists and is active
     const event = await this.eventRepository.findEventById(eventId);
-    if (!event || !event.isActive) {
-      throw new Error("Event not found or is no longer active");
+    if (!event || !event.isActive || new Date(event.date) < new Date()) {
+      throw new Error("Event not found, expired, or is no longer active");
     }
 
     // Check if the user is already signed up for the event

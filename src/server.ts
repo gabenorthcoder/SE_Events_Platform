@@ -7,6 +7,7 @@ import { eventRoutes } from "./adapter/routes/eventRoutes";
 import { userRoutes } from "./adapter/routes/userRoutes";
 import { authRoutes } from "./adapter/routes/authRoutes";
 import { superAdminRoutes } from "./adapter/routes/superAdminRoutes";
+import { adminRoutes } from "./adapter/routes/adminRoutes";
 import { AppDataSource } from "./infrastructure/repository/dataSource";
 import logger from "./utils/logger";
 import passport from "passport";
@@ -67,9 +68,9 @@ async function startServer() {
     // Mount event routes at the root or specific path
 
     app.use("/events", eventRoutes);
-    app.use("/user", userRoutes);
+    app.use("/users", userRoutes);
     app.use("/auth", authRoutes);
-    // app.use("/admin", adminRoutes);
+    app.use("/admin", adminRoutes);
     app.use("/super-admin", superAdminRoutes);
 
     // Start the server

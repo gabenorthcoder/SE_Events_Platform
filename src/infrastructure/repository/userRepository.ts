@@ -29,6 +29,11 @@ export class UserRepository {
     return userByEmail;
   }
 
+  async findUserByEmail(email: string): Promise<User | null> {
+    const userByEmail = await this.userRepository.findOne({ where: { email } });
+    return userByEmail;
+  }
+
   async userExisit(email: string, role: UserRole): Promise<User | null> {
     const userExisit = await this.userRepository.findOne({
       where: { email, role },
