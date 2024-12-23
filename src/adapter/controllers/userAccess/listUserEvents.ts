@@ -13,6 +13,7 @@ listUserEvents.get("/:id/events", async (req: Request, res: Response) => {
       res.status(400).json({
         message: "Invalid ID. It must be a positive integer greater than 0.",
       });
+      return;
     }
     const useCase = new ListUserEventsUseCase();
     const events = await useCase.execute(Number(id));

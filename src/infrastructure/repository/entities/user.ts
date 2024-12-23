@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  ManyToOne,
+  Unique,
 } from "typeorm";
 import { Event } from "./event";
 import { UserEvent } from "./userEvent";
@@ -24,6 +26,7 @@ export enum UserAuthType {
 }
 
 @Entity()
+@Unique(["email", "role"])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -35,7 +38,7 @@ export class User {
   @Column({ type: "text", nullable: false })
   email: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   password: string;
 
   @Column({ type: "text", nullable: false })
@@ -47,6 +50,7 @@ export class User {
   @Column({
     type: "enum",
     enum: UserRole,
+    nullable: true,
   })
   role: UserRole;
 
@@ -56,6 +60,9 @@ export class User {
     enum: UserAuthType,
   })
   authType: UserAuthType;
+
+  @ManyToOne(() => User)
+  updatedBy: User;
 
   // One-to-many relation for created events
   @OneToMany(() => Event, (event) => event.createdBy)

@@ -3,7 +3,7 @@ import { User } from "../../infrastructure/repository/entities/user";
 import bcrypt from "bcryptjs";
 import { UserRegistrationInput } from "../../domain/registerUser";
 
-export class RegisterUserUserCase {
+export class RegisterUserUseCase {
   private userRepository: UserRepository;
 
   constructor() {

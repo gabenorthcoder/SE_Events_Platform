@@ -2,7 +2,7 @@ import { UserLoginInput } from "../../domain/loginUser";
 import { AuthService } from "../../infrastructure/authService";
 import { UserLoginSuccess } from "../../infrastructure/authService";
 
-export class LoginUserUserCase {
+export class LoginUserUseCase {
   private authService: AuthService;
 
   constructor() {

@@ -5,24 +5,71 @@ import logger from "../utils/logger";
 import dotenv from "dotenv";
 import { User, UserRole } from "./repository/entities/user";
 import { randomHash } from "../utils/randomHash";
+dotenv.config();
 
 export class UserLoginSuccess extends User {
   token: string;
 }
 
-dotenv.config();
+export class SuperAdminLoginSuccess {
+  firstName: string;
+  role: string;
+  token: string;
+}
 
 export interface Payload {
   id: number;
   uuid: string;
-  role: number;
+  role?: UserRole;
+  hash: string;
+}
+
+export interface SuperAdminPayload {
+  firstName: string;
+  role: string;
   hash: string;
 }
 
 const JWT_SECRET = String(process.env.JWT_SECRET);
+if (!JWT_SECRET) {
+  logger.error("JWT_SECRET is not defined in the environment variables.");
+  throw new Error("JWT_SECRET is not defined in the environment variables.");
+}
+const SUPER_ADMIN_EMAIL = String(process.env.SUPER_ADMIN_EMAIL);
+if (!SUPER_ADMIN_EMAIL) {
+  logger.error(
+    "SUPER_ADMIN_EMAIL is not defined in the environment variables."
+  );
+  throw new Error(
+    "SUPER_ADMIN_EMAIL is not defined in the environment variables."
+  );
+}
+const SUPER_ADMIN_PASSWORD = String(process.env.SUPER_ADMIN_PASSWORD);
+if (!SUPER_ADMIN_PASSWORD) {
+  logger.error(
+    "SUPER_ADMIN_PASSWORD is not defined in the environment variables."
+  );
+  throw new Error(
+    "SUPER_ADMIN_PASSWORD is not defined in the environment variables."
+  );
+}
 
 export class AuthService {
   private userRepository = new UserRepository();
+
+  async superAdminLogin(
+    loginEmail: string,
+    loginPassword: string
+  ): Promise<SuperAdminLoginSuccess> {
+    if (
+      loginEmail !== SUPER_ADMIN_EMAIL ||
+      loginPassword !== SUPER_ADMIN_PASSWORD
+    ) {
+      throw new Error("Invalid Super Admin email or password.");
+    }
+
+    return await this.generateTokenForSuperAdmin();
+  }
 
   async login(
     loginEmail: string,
@@ -30,11 +77,12 @@ export class AuthService {
     loginRole: UserRole
   ): Promise<Partial<UserLoginSuccess>> {
     // Find the user by email
+
     const user = await this.userRepository.userExisit(loginEmail, loginRole);
 
     if (!user) {
       logger.error(`User email:${loginEmail} not found`);
-      throw new Error("Invalid email or password.");
+      throw new Error("Invalid email or role.");
     }
     // Compare the provided password with the stored hashed password
 
@@ -44,20 +92,19 @@ export class AuthService {
       logger.error(`Invalid password for user ${loginEmail}`);
       throw new Error("Invalid email or password.");
     }
-
     // Generate JWT token
-    const payload = this.buildPayload(user);
+    return await this.generateTokenForUser(user);
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
-    const { password, ...userWithoutPassword } = user;
-    return {
-      ...userWithoutPassword,
-      token,
-    };
+    // const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+    // const { password, ...userWithoutPassword } = user;
+    // return {
+    //   ...userWithoutPassword,
+    //   token,
+    // };
   }
 
   async generateTokenForUser(user: User): Promise<Partial<UserLoginSuccess>> {
-    const payload = this.buildPayload(user);
+    const payload = this.buildUserPayload(user);
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
     const { password, ...userWithoutPassword } = user;
@@ -68,21 +115,40 @@ export class AuthService {
     return userWithToken;
   }
 
-  async generateAdminTokenForUser(
-    user: User
-  ): Promise<Partial<UserLoginSuccess>> {
-    if (user.role !== UserRole.ADMIN) {
-      throw new Error("User is not an admin.");
-    }
+  private async generateTokenForSuperAdmin(): Promise<SuperAdminLoginSuccess> {
+    const payload = this.buildSuperAdminPayload();
 
-    return this.generateTokenForUser(user);
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+    const superAdmin = {
+      firstName: "Super Admin",
+      role: "superAdmin",
+      token,
+    };
+    return superAdmin;
   }
+  // async generateAdminTokenForUser(
+  //   user: User
+  // ): Promise<Partial<UserLoginSuccess>> {
+  //   if (user.role !== UserRole.ADMIN) {
+  //     throw new Error("User is not an admin.");
+  //   }
 
-  private buildPayload(user: User): Payload {
+  //   return this.generateTokenForUser(user);
+  // }
+
+  private buildUserPayload(user: User): Payload {
     return {
       id: user.id,
       uuid: user.uuid,
       role: user.role,
+      hash: randomHash,
+    };
+  }
+
+  private buildSuperAdminPayload(): SuperAdminPayload {
+    return {
+      firstName: "Super Admin",
+      role: "superAdmin",
       hash: randomHash,
     };
   }

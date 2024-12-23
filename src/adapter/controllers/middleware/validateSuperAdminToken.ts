@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export const validateToken = async (
+export const validateSuperAdminToken = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,14 +21,15 @@ export const validateToken = async (
   }
   const token = authHeader.split(" ")[1];
   const authMiddlewareService = new AuthMiddlewareService();
-  const result = await authMiddlewareService.verifyToken(token);
-
-  if (result.valid && result.user) {
+  const result = await authMiddlewareService.verifySuperAdminUserToken(token);
+  if (result.valid && result.superAdminUser) {
     // Attach decoded token to the request object
-    req.user = result.user; // `req.user` will now hold the `Payload`
+    req.user = result.superAdminUser;
     next();
   } else {
-    res.status(403).json({ message: "Unauthorized: Invalid token" });
+    res
+      .status(403)
+      .json({ message: "Unauthorized: Invalid super admin token" });
   }
   return;
 };

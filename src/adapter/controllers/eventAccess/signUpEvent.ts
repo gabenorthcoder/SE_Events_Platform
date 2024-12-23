@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { SignupEventUseCase } from "../../../application/useCases/SignupForEventUseCase";
+import { SignupEventUseCase } from "../../../application/useCases/signupForEventUseCase";
 import { User } from "../../../infrastructure/repository/entities/user";
 
 const signupEvent = express.Router();
@@ -11,11 +11,10 @@ signupEvent.post("/:id/signup", async (req: Request, res: Response) => {
 
     // Check if numericId is a positive integer
     if (!Number.isInteger(numericId) || numericId <= 0) {
-      res
-        .status(400)
-        .json({
-          message: "Invalid ID. It must be a positive integer greater than 0.",
-        });
+      res.status(400).json({
+        message: "Invalid ID. It must be a positive integer greater than 0.",
+      });
+      return;
     }
 
     // Get the authenticated user (from middleware, assume `req.user` exists)

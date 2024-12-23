@@ -3,9 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import { eventRoutes } from "./adapter/routes/eventRoute";
+import { eventRoutes } from "./adapter/routes/eventRoutes";
 import { userRoutes } from "./adapter/routes/userRoutes";
 import { authRoutes } from "./adapter/routes/authRoutes";
+import { superAdminRoutes } from "./adapter/routes/superAdminRoutes";
 import { AppDataSource } from "./infrastructure/repository/dataSource";
 import logger from "./utils/logger";
 import passport from "passport";
@@ -68,6 +69,8 @@ async function startServer() {
     app.use("/events", eventRoutes);
     app.use("/user", userRoutes);
     app.use("/auth", authRoutes);
+    // app.use("/admin", adminRoutes);
+    app.use("/super-admin", superAdminRoutes);
 
     // Start the server
     app.listen(port, () => {

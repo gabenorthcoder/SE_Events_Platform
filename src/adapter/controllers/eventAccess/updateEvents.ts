@@ -16,6 +16,7 @@ updateEvent.put("/:id/update", async (req: Request, res: Response) => {
       res.status(400).json({
         message: "Invalid ID. It must be a positive integer greater than 0.",
       });
+      return;
     }
 
     const body = req.body as unknown;
