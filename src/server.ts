@@ -30,6 +30,8 @@ async function startServer() {
       origin: corsOrigins,
     };
 
+    console.log("Using SSL credentials");
+
     app.use(cors());
     app.use(express.json());
     app.use(passport.initialize());
