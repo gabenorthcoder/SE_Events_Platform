@@ -4,7 +4,12 @@
 
 The Events Platform Frontend is a React application designed to work seamlessly with the Events Platform Backend. It provides a user-friendly interface for managing events, user registrations, and administrative tasks. The application is built using TypeScript and Material-UI for a responsive and modern design.
 
-Production: https://events-platform-coral-rho.vercel.app
+Production: 
+Home Page: https://events-platform-coral-rho.vercel.app
+Staff: https://events-platform-coral-rho.vercel/staff/login
+Admin: https://events-platform-coral-rho.vercel/admin/login
+
+
 
 ## Features
 
