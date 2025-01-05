@@ -11,6 +11,7 @@ const registerAdminUser = express.Router();
 registerAdminUser.post("/register", async (req: Request, res: Response) => {
   try {
     const body = req.body as unknown;
+
     const isValidBody = isUserRegistrationBody(body);
 
     if (!isValidBody.success) {

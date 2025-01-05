@@ -8,7 +8,7 @@ export class AdminDeleteUsersUseCase {
     this.userRepository = new UserRepository();
   }
   async execute(userId: number, loggedUser: User): Promise<void> {
-    // Validate the user exists
+
     const user = await this.userRepository.findUserById(userId);
     if (!user) {
       logger.warn(`User Deletion: User with id ${userId} not found`);
@@ -23,7 +23,6 @@ export class AdminDeleteUsersUseCase {
       throw new Error("Admin role is not allowed to delete another admin");
     }
 
-    // Soft delete the user
     await this.userRepository.deleteUser(userId);
   }
 }

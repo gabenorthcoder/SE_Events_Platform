@@ -81,5 +81,4 @@ superAdminDeleteRoute.delete(
   superAdminDeleteUser
 );
 
-// Export the routes
 export { superAdminDeleteRoute };

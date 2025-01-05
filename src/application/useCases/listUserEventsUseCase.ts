@@ -15,9 +15,8 @@ export class ListUserEventsUseCase {
 
   async execute(
     loggedUser: User,
-    userId: number
   ): Promise<Event[] | UserEvent[]> {
-    // If the logged user is an Admin or Staff, return all user events
+
     if (
       loggedUser.role === UserRole.ADMIN ||
       loggedUser.role === UserRole.STAFF
@@ -26,13 +25,8 @@ export class ListUserEventsUseCase {
       return allUserEvents;
     }
 
-    // If the logged user is not Admin/Staff and the provided userId doesn't match the logged user, throw an error
-    if (loggedUser.id !== userId) {
-      throw new Error("Unauthorized access");
-    }
-
-    // Fetch and return the events for the specific user
-    const events = await this.userEventRepository.findEventsByUserId(userId);
+ 
+    const events = await this.userEventRepository.findEventsByUserId(loggedUser.id);
     return events;
   }
 }

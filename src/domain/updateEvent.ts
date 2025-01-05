@@ -6,12 +6,7 @@ export const updateEventSchema = z.object({
     .string()
     .min(1, { message: "Description is required" })
     .optional(),
-  location: z
-    .object({
-      lat: z.number({ required_error: "Latitude is required" }),
-      lon: z.number({ required_error: "Longitude is required" }),
-    })
-    .optional(),
+  address: z.string({ message: "Address is required" }).optional(),
   date: z
     .string()
     .refine((val) => !isNaN(Date.parse(val)), {

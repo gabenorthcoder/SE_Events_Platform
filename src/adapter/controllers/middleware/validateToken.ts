@@ -4,7 +4,7 @@ import { AuthMiddlewareService } from "../../../infrastructure/middleware/authMi
 declare global {
   namespace Express {
     interface Request {
-      user?: User; // Extend the Express Request type to include `user`
+      user?: User; 
     }
   }
 }
@@ -24,8 +24,8 @@ export const validateToken = async (
   const result = await authMiddlewareService.verifyToken(token);
 
   if (result.valid && result.user) {
-    // Attach decoded token to the request object
-    req.user = result.user; // `req.user` will now hold the `Payload`
+
+    req.user = result.user;
     next();
   } else {
     res.status(403).json({ message: "Unauthorized: Invalid token" });

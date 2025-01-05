@@ -76,15 +76,15 @@ export class AuthService {
     loginPassword: string,
     loginRole: UserRole
   ): Promise<Partial<UserLoginSuccess>> {
-    // Find the user by email
 
-    const user = await this.userRepository.userExisit(loginEmail, loginRole);
+
+    const user = await this.userRepository.userExists(loginEmail, loginRole);
 
     if (!user) {
       logger.error(`User email:${loginEmail} not found`);
       throw new Error("Invalid email or role.");
     }
-    // Compare the provided password with the stored hashed password
+
 
     const isPasswordValid = await bcrypt.compare(loginPassword, user.password);
 
@@ -92,15 +92,9 @@ export class AuthService {
       logger.error(`Invalid password for user ${loginEmail}`);
       throw new Error("Invalid email or password.");
     }
-    // Generate JWT token
+
     return await this.generateTokenForUser(user);
 
-    // const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
-    // const { password, ...userWithoutPassword } = user;
-    // return {
-    //   ...userWithoutPassword,
-    //   token,
-    // };
   }
 
   async generateTokenForUser(user: User): Promise<Partial<UserLoginSuccess>> {
@@ -126,15 +120,6 @@ export class AuthService {
     };
     return superAdmin;
   }
-  // async generateAdminTokenForUser(
-  //   user: User
-  // ): Promise<Partial<UserLoginSuccess>> {
-  //   if (user.role !== UserRole.ADMIN) {
-  //     throw new Error("User is not an admin.");
-  //   }
-
-  //   return this.generateTokenForUser(user);
-  // }
 
   private buildUserPayload(user: User): Payload {
     return {

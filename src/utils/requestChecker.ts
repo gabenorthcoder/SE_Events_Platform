@@ -1,6 +1,6 @@
 import { ZodError, ZodIssue } from "zod";
 
-// Type guard to check if a ZodIssue has a 'received' property
+
 const isZodIssueWithReceived = (
   issue: ZodIssue
 ): issue is ZodIssue & { received: unknown } => "received" in issue;

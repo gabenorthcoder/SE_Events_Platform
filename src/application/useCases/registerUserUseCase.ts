@@ -14,7 +14,7 @@ export class RegisterUserUseCase {
     if (userData.role === UserRole.ADMIN || userData.role === UserRole.STAFF) {
       throw new Error("Admin and staff roles are not allowed to register");
     }
-    const existingUser = await this.userRepository.userExisit(
+    const existingUser = await this.userRepository.userExists(
       userData.email,
       userData.role
     );
@@ -22,21 +22,20 @@ export class RegisterUserUseCase {
       throw new Error(`User with ${userData.email} already exists`);
     }
 
-    // Create and save new user
+
     const newUser = await this.buildUser(userData);
     const createdUser = await this.userRepository.createUser(newUser);
 
-    // Return the new user
     return createdUser;
   }
-  // Hash password
+
   private async buildUser(userData: UserRegistrationInput): Promise<User> {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const newUser = new User();
     newUser.email = userData.email;
     newUser.password = hashedPassword;
     newUser.firstName = userData.firstName;
-    newUser.lastName = userData.lastName;
+    newUser.lastName = userData.lastName|| "";
     newUser.role = userData.role;
     return newUser;
   }

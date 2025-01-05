@@ -6,7 +6,7 @@ export interface SuperUser {
 }
 export const authorizeSuperAdminRole = (authRole: string) => {
   return (req: Request, res: Response, next: NextFunction): void => {
-    // Ensure user is set (by validateToken)
+
     const user = req.user as SuperUser;
 
     if (!user.role) {
@@ -16,7 +16,7 @@ export const authorizeSuperAdminRole = (authRole: string) => {
       return;
     }
 
-    // Check if the user's role is in the allowed roles
+
     if (user.role !== authRole) {
       res.status(403).json({
         message: "Forbidden: You do not have access to this resource",
@@ -24,7 +24,7 @@ export const authorizeSuperAdminRole = (authRole: string) => {
       return;
     }
 
-    // Role is authorized; proceed to the next middleware/route
+
     next();
   };
 };

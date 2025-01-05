@@ -5,7 +5,7 @@ import { formatZodError } from "../../../utils/requestChecker";
 
 const loginUser = express.Router();
 
-// User Login Endpoint
+
 loginUser.post("/login", async (req: Request, res: Response) => {
   try {
     const body = req.body as unknown;

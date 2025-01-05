@@ -44,7 +44,7 @@ export class User {
   @Column({ type: "text", nullable: false })
   firstName: string;
 
-  @Column("text")
+  @Column({ type: "text", nullable: true })
   lastName: string;
 
   @Column({
@@ -64,15 +64,15 @@ export class User {
   @ManyToOne(() => User)
   updatedBy: User;
 
-  // One-to-many relation for created events
+
   @OneToMany(() => Event, (event) => event.createdBy)
   createdEvents: Event[];
 
-  // One-to-many relation for updated events
+
   @OneToMany(() => Event, (event) => event.updatedBy)
   updatedEvents: Event[];
 
-  // One-to-many relation for user events
+
   @OneToMany(() => UserEvent, (userEvent) => userEvent.user)
   userEvents: UserEvent[];
 

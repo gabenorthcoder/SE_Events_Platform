@@ -1,16 +1,30 @@
 import { AppDataSource } from "./dataSource";
 import { Event } from "./entities/event";
 
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: 'ASC' | 'DESC';
+}
+
+export interface PaginatedResult<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+}
 export class EventRepository {
   private eventRepository = AppDataSource.getRepository(Event);
 
-  // Create and save a new event
+ 
   async createEvent(eventData: Partial<Event>): Promise<Event> {
-    const event = this.eventRepository.create(eventData); // Create a new event instance
-    return await this.eventRepository.save(event); // Save to the database
+    const event = this.eventRepository.create(eventData); 
+    return await this.eventRepository.save(event); 
   }
 
-  // Find an event by its ID
+ 
   async findEventById(id: number): Promise<Event> {
     const event = await this.eventRepository.findOne({
       where: { id },
@@ -33,6 +47,8 @@ export class EventRepository {
     return activeEvents;
   }
 
+
+
   async findAllEvents(): Promise<Event[]> {
     const events = await this.eventRepository.find({
       relations: ["createdBy", "updatedBy"],
@@ -43,18 +59,19 @@ export class EventRepository {
     return events;
   }
 
-  // Update an event
+
+
   async updateEvent(eventData: Event): Promise<Event> {
-    const checkEvent = this.findEventById(eventData.id); // Check if the event exists
+    const checkEvent = this.findEventById(eventData.id); 
     if (!checkEvent) {
       throw new Error(`Event with id ${eventData.id} not found`);
     }
-    return await this.eventRepository.save(eventData); // Save can also perform updates
+    return await this.eventRepository.save(eventData); 
   }
 
-  // Soft delete an event (set `isActive` to false)
+
   async softDeleteEvent(id: number): Promise<void> {
-    const checkEvent = this.findEventById(id); // Check if the event exists
+    const checkEvent = this.findEventById(id); 
     if (!checkEvent) {
       throw new Error(`Event with id ${id} not found`);
     }
@@ -64,4 +81,30 @@ export class EventRepository {
   async deleteEvent(id: number): Promise<void> {
     await this.eventRepository.delete(id);
   }
+
+  async findPaginatedEvents(
+    params: PaginationParams
+  ): Promise<PaginatedResult<Event>> {
+    const { page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'DESC' } = params;
+
+
+    const skip = (page - 1) * limit;
+
+
+    const [data, total] = await this.eventRepository.findAndCount({
+      order: {
+        [sortBy]: sortOrder,
+      },
+      skip,
+      take: limit,
+    });
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+    };
+  }
+  
 }

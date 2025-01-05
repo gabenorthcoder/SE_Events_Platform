@@ -8,7 +8,7 @@ deleteEvent.delete("/:id/delete", async (req: Request, res: Response) => {
     const { id } = req.params;
     const numericId = Number(id);
 
-    // Check if numericId is a positive integer
+
     if (!Number.isInteger(numericId) || numericId <= 0) {
       res.status(400).json({
         message: "Invalid ID. It must be a positive integer greater than 0.",

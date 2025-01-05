@@ -13,7 +13,7 @@ const listUserEventsRoute = Router();
  *     summary: Get events signed up by the user
  *     description: Retrieve all events that the specified user has signed up for.
  *     tags:
- *      - Events
+ *       - Events
  *     parameters:
  *       - in: path
  *         name: id
@@ -54,7 +54,7 @@ const listUserEventsRoute = Router();
  *         description: User not found.
  */
 listUserEventsRoute.get(
-  "/:id/events",
+  "/:id/list",
   validateToken,
   authorizeRole([UserRole.USER, UserRole.STAFF, UserRole.ADMIN]),
   listUserEvents

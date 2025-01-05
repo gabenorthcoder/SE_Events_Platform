@@ -11,14 +11,14 @@ export class CreateEventUseCase {
   }
 
   async execute(eventData: CreateEventInput, user: User): Promise<Event> {
-    // Create and save the event
+
     const newEvent = await this.eventRepository.createEvent({
       ...eventData,
-      date: new Date(eventData.date), // Convert string to Date object
-      createdBy: user, // Associate the event with the user
+      date: new Date(eventData.date), 
+      createdBy: user, 
       isActive: true,
     });
 
-    return newEvent; // Return the saved event
+    return newEvent; 
   }
 }

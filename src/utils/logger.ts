@@ -1,4 +1,4 @@
-// logger.ts
+
 import { createLogger, format, transports } from "winston";
 
 const customLevels = {
@@ -13,6 +13,7 @@ const customLevels = {
     error: "red",
     warn: "yellow",
     info: "green",
+    debug: "orange"
   },
 };
 

@@ -6,8 +6,9 @@ import {
 
 export const authorizeRole = (allowedRoles: UserRole[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {
-    // Ensure user is set (by validateToken)
+
     const user = req.user as User;
+ 
 
     if (!user) {
       res
@@ -16,7 +17,6 @@ export const authorizeRole = (allowedRoles: UserRole[]) => {
       return;
     }
 
-    // Check if the user's role is in the allowed roles
     if (!allowedRoles.includes(user.role)) {
       res.status(403).json({
         message: "Forbidden: You do not have access to this resource",
@@ -24,7 +24,6 @@ export const authorizeRole = (allowedRoles: UserRole[]) => {
       return;
     }
 
-    // Role is authorized; proceed to the next middleware/route
     next();
   };
 };

@@ -9,8 +9,7 @@ const signupEvent = express.Router();
 signupEvent.post("/:id/signup", async (req: Request, res: Response) => {
   try {
     const body = req.body as unknown;
-
-    // Validate the request body using Zod
+ 
     const isValidBody = isEventSignUpBody(body);
 
     if (!isValidBody.success) {
@@ -19,12 +18,10 @@ signupEvent.post("/:id/signup", async (req: Request, res: Response) => {
       return;
     }
 
-    // Extract the validated data
     const validEventData = isValidBody.data!;
-    const { id } = req.params; // Event ID from the route parameter
+    const { id } = req.params; 
     const numericId = Number(id);
 
-    // Check if numericId is a positive integer
     if (!Number.isInteger(numericId) || numericId <= 0) {
       res.status(400).json({
         message: "Invalid ID. It must be a positive integer greater than 0.",
@@ -32,14 +29,14 @@ signupEvent.post("/:id/signup", async (req: Request, res: Response) => {
       return;
     }
 
-    // Get the authenticated user (from middleware, assume `req.user` exists)
+
     const user = req.user as User | undefined;
     if (!user) {
       res.status(401).json({ message: "Unauthorized: User not authenticated" });
       return;
     }
 
-    // Use the use case to sign up for the event
+
     const useCase = new SignupEventUseCase();
     const signupResult = await useCase.execute(
       Number(id),

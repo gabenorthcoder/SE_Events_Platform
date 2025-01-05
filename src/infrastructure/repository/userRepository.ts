@@ -34,16 +34,17 @@ export class UserRepository {
     return userByEmail;
   }
 
-  async userExisit(email: string, role: UserRole): Promise<User | null> {
-    const userExisit = await this.userRepository.findOne({
+  async userExists(email: string, role: UserRole): Promise<User | null> {
+    const userExists = await this.userRepository.findOne({
       where: { email, role },
     });
-    return userExisit;
+    return userExists;
   }
-  async findUserById(id: number): Promise<User> {
-    const userById = await this.userRepository.findOne({ where: { id } });
+  async findUserById(userId: number): Promise<User> {
+
+    const userById = await this.userRepository.findOne({ where: { id: userId } });
     if (!userById) {
-      logger.error(`User id:${id} not found`);
+      logger.error(`User id:${userId} not found`);
       throw new Error("User not found");
     }
     return userById;
@@ -54,12 +55,11 @@ export class UserRepository {
     const user = this.userRepository.create(userRegistrationData);
     const savedUser = await this.userRepository.save(user);
 
-    // Remove the password field from the saved user object
     const { password, ...userWithoutPassword } = savedUser;
     return userWithoutPassword;
   }
 
-  async updateUser(user: User): Promise<User> {
+  async updateUser(user: Partial<User>): Promise<User> {
     return await this.userRepository.save(user);
   }
 

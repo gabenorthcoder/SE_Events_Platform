@@ -10,29 +10,26 @@ createEvent.post("/create", async (req: Request, res: Response) => {
   try {
     const body = req.body as unknown;
 
-    // Validate the request body using Zod
     const isValidBody = isCreateEventBody(body);
-
     if (!isValidBody.success) {
       const formattedError = formatZodError(isValidBody.error!);
       res.status(400).json(formattedError);
       return;
     }
 
-    // Extract the validated data
+
     const validEventData = isValidBody.data!;
 
-    // Get the authenticated user (from middleware, assume `req.user` exists)
+
     const user = req.user as User | undefined;
     if (!user) {
       res.status(401).json({ message: "Unauthorized: User not authenticated" });
       return;
     }
 
-    // Use the use case to create the event
+
     const useCase = new CreateEventUseCase();
     const newEvent = await useCase.execute(validEventData, user);
-
     res
       .status(201)
       .json({ message: "Event created successfully", event: newEvent });

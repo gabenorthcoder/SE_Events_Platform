@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { getEvents } from "../../controllers/eventAccess/getEvents";
-import { validateToken } from "../../controllers/middleware/validateToken";
-import { authorizeRole } from "../../controllers/middleware/authorizeUser";
-import { UserRole } from "../../../infrastructure/repository/entities/user";
 
-const getEventRoute = Router();
+
+const getEventsRoute = Router();
 
 /**
  * @openapi
@@ -33,15 +31,9 @@ const getEventRoute = Router();
  *                   description:
  *                     type: string
  *                     example: "An engaging art workshop for all ages"
- *                   location:
- *                     type: object
- *                     properties:
- *                       lat:
- *                         type: number
- *                         example: 40.73061
- *                       lon:
- *                         type: number
- *                         example: -73.935242
+ *                   address:
+ *                     type: string
+ *                     example: "10 Downing Street, London, UK"
  *                   date:
  *                     type: string
  *                     format: date
@@ -70,11 +62,9 @@ const getEventRoute = Router();
  *                   example: "Failed to fetch events"
  */
 
-getEventRoute.get(
+getEventsRoute.get(
   "/read",
-  validateToken,
-  authorizeRole([UserRole.USER, UserRole.ADMIN, UserRole.STAFF]),
   getEvents
 );
 
-export { getEventRoute };
+export { getEventsRoute };

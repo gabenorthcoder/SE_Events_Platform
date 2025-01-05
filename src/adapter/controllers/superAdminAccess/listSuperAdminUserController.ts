@@ -21,6 +21,7 @@ listAllUsersAsSuperAdmin.get(
 
         const user = await useCase.execute(numericId);
         res.status(200).json(user);
+        return;
       }
       const users = await useCase.execute();
       res.status(200).json(users);

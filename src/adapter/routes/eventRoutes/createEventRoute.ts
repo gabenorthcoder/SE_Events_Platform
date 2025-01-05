@@ -30,17 +30,9 @@ const createEventRouter = Router();
  *                 type: string
  *                 example: "An engaging art workshop for all ages"
  *                 description: "Details about the event"
- *               location:
- *                 type: object
- *                 properties:
- *                   lat:
- *                     type: number
- *                     example: 40.73061
- *                     description: "Latitude of the event location"
- *                   lon:
- *                     type: number
- *                     example: -73.935242
- *                     description: "Longitude of the event location"
+ *               address:
+ *                 type: string
+ *                 example: "10 Downing Street, London, UK"
  *               date:
  *                 type: string
  *                 format: date
@@ -72,17 +64,9 @@ const createEventRouter = Router();
  *                       type: string
  *                       example: "An engaging art workshop for all ages"
  *                       description: "Details about the event"
- *                     location:
- *                       type: object
- *                       properties:
- *                         lat:
- *                           type: number
- *                           example: 40.73061
- *                           description: "Latitude of the event location"
- *                         lon:
- *                           type: number
- *                           example: -73.935242
- *                           description: "Longitude of the event location"
+ *                     address:
+ *                       type: string
+ *                       example: "10 Downing Street, London, UK"
  *                     date:
  *                       type: string
  *                       format: date

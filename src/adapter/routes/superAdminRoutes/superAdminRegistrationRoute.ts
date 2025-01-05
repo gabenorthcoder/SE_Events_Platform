@@ -109,5 +109,5 @@ superAdminRegistrationRoute.post(
   superAdminUserRegistration
 );
 
-// Export the routes
+
 export { superAdminRegistrationRoute };

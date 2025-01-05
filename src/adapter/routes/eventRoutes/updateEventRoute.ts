@@ -34,15 +34,9 @@ const updateEventRoute = Router();
  *               description:
  *                 type: string
  *                 example: "An updated description for the art workshop."
- *               location:
- *                 type: object
- *                 properties:
- *                   lat:
- *                     type: number
- *                     example: 40.73061
- *                   lon:
- *                     type: number
- *                     example: -73.935242
+ *               address:
+ *                 type: string
+ *                 example: "10 Downing Street, London, UK"
  *               date:
  *                 type: string
  *                 format: date

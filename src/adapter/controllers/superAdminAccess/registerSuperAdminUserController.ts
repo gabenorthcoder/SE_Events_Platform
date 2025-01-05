@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { RegisterUserUseCase } from "../../../application/useCases/registerUserUseCase";
+import { SuperAdminRegisterUserUseCase } from "../../../application/useCases/superAdminRegisterUsersUseCase";
 import { isUserRegistrationBody } from "../../../domain/registerUser";
 import { formatZodError } from "../../../utils/requestChecker";
 
@@ -11,14 +11,13 @@ superAdminUserRegistration.post(
     try {
       const body = req.body as unknown;
       const isValidBody = isUserRegistrationBody(body);
-
       if (!isValidBody.success) {
         const formattedError = formatZodError(isValidBody.error!);
         res.status(400).json(formattedError);
         return;
       }
       const validUserRegistrationBody = isValidBody.data!;
-      const useCase = new RegisterUserUseCase();
+      const useCase = new SuperAdminRegisterUserUseCase();
       const newUser = await useCase.execute(validUserRegistrationBody);
 
       res

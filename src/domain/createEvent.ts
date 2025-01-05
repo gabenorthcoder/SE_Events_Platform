@@ -3,15 +3,11 @@ import { z } from "zod";
 export const createEventSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.string().min(1, { message: "Description is required" }),
-  location: z
-    .object({
-      lat: z.number({ required_error: "Latitude is required" }),
-      lon: z.number({ required_error: "Longitude is required" }),
-    })
-    .optional(),
+  address: z.string({ message: "Address is required" }),
   date: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Invalid date format",
   }),
+  imageUrl: z.string({ message: "Image URL is required" }) 
 });
 
 export type CreateEventInput = z.infer<typeof createEventSchema>;

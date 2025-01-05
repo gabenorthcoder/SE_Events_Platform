@@ -23,7 +23,7 @@ export class RegisterAdminUseCase {
       throw new Error("Admin role is not allowed to register another admin");
     }
 
-    const existingUser = await this.userRepository.userExisit(
+    const existingUser = await this.userRepository.userExists(
       userData.email,
       userData.role
     );
@@ -31,21 +31,21 @@ export class RegisterAdminUseCase {
       throw new Error(`User with ${userData.email} already exists`);
     }
 
-    // Create and save new user
+  
     const newUser = await this.buildUser(userData);
     const createdUser = await this.userRepository.createUser(newUser);
 
-    // Return the new user
+
     return createdUser;
   }
-  // Hash password
+
   private async buildUser(userData: UserRegistrationInput): Promise<User> {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const newUser = new User();
     newUser.email = userData.email;
     newUser.password = hashedPassword;
     newUser.firstName = userData.firstName;
-    newUser.lastName = userData.lastName;
+    newUser.lastName = userData.lastName || "";
     newUser.role = userData.role;
     return newUser;
   }

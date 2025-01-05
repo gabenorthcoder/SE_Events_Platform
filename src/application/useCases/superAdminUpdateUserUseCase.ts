@@ -14,7 +14,7 @@ export class SuperAdminUpdateUserUseCase {
     data: Partial<User>,
     superAdmin: User
   ): Promise<User> {
-    // Validate the user exists
+
     const user = await this.userRepository.findUserById(userId);
     if (!user) {
       logger.warn(`User Update: User with id ${userId} not found`);
@@ -31,21 +31,14 @@ export class SuperAdminUpdateUserUseCase {
       }
     }
 
-    // const existingUser = await this.userRepository.userExisit(
-    //   user.email,
-    //   user.role
-    // );
-    // if (existingUser) {
-    //   throw new Error(`User already exists as ${UserRole[existingUser.role]}`);
-    // }
     if (data.password) {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       data.password = hashedPassword;
     }
     data.updatedBy = superAdmin;
-    // Update only the fields provided in the input
+
     _.merge(user, data);
-    // Save the changes
+
     return await this.userRepository.updateUser(user);
   }
 }

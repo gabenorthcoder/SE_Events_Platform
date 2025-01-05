@@ -8,6 +8,7 @@ export class AdminListUsersUseCase {
     this.userRepository = new UserRepository();
   }
   async execute(loggedUser: User, role?: UserRole): Promise<User[]> {
+
     if (loggedUser.role === UserRole.STAFF && !role) {
       const allNormalUsers = await this.userRepository.findAllUsersByRole(
         UserRole.USER

@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { User } from "./user";
 import { UserEvent } from "./userEvent";
+import { stubTrue } from "lodash";
 
 @Entity()
 export class Event {
@@ -27,11 +28,14 @@ export class Event {
   @Column("text")
   description: string;
 
-  @Column({ type: "jsonb", nullable: true })
-  location: { lat: number; lon: number };
-
+  @Column({type: "text", nullable:true})
+  address: string;
+ 
   @Column("timestamptz")
   date: Date;
+
+  @Column({type: "text", nullable:true})
+  imageUrl: string;
 
   @Column({ type: "boolean", default: true })
   isActive: boolean;
@@ -42,9 +46,8 @@ export class Event {
   @ManyToOne(() => User, (user) => user.updatedEvents)
   updatedBy: User;
 
-  // Add this relationship
   @OneToMany(() => UserEvent, (userEvent) => userEvent.event)
-  userEvents: UserEvent[]; // This is the reverse side of the relationship
+  userEvents: UserEvent[]; 
 
   @CreateDateColumn()
   createdAt: Date;

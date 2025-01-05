@@ -6,11 +6,16 @@ const listAdminUsers = express.Router();
 
 listAdminUsers.get("/:role?/list", async (req: Request, res: Response) => {
   try {
-    const userRole = req.params.role;
+  
+
+    const userRole = req.params.role; 
+ 
     const loggedUser = req.user as User;
 
     const useCase = new AdminListUsersUseCase();
-    if (userRole) {
+
+
+    if (typeof userRole !== "undefined") {
       const numericId = Number(userRole);
       if (!Number.isInteger(numericId) || numericId < 0) {
         res.status(400).json({
@@ -22,6 +27,7 @@ listAdminUsers.get("/:role?/list", async (req: Request, res: Response) => {
       const users = await useCase.execute(loggedUser, numericId);
       res.status(200).json(users);
     } else {
+    
       const users = await useCase.execute(loggedUser);
       res.status(200).json(users);
     }
@@ -30,5 +36,6 @@ listAdminUsers.get("/:role?/list", async (req: Request, res: Response) => {
     res.status(401).json({ message: errorMessage });
   }
 });
+
 
 export { listAdminUsers };

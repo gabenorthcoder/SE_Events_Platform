@@ -3,7 +3,7 @@ interface User {
   uuid: string;
   email: string;
   firstName: string;
-  lastName: string;
+  lastName: string|null;
   role: number;
   authType: number;
   createdAt: Date;
@@ -16,7 +16,8 @@ export interface SanitizedEvent {
   uuid: string;
   title: string;
   description: string;
-  location: { lat: number; lon: number };
+  address: string;
+  imageUrl:string;
   date: Date;
   isActive: boolean;
   createdAt: Date;
@@ -26,9 +27,9 @@ export interface SanitizedEvent {
   updatedBy: User | null;
 }
 
-// Utility function to sanitize events
+
 export function sanitizeEvents(events: SanitizedEvent[]): SanitizedEvent[] {
-  if (!events || events.length === 0) return []; // Return empty array if no events
+  if (!events || events.length === 0) return []; 
 
   return events.map((event) => ({
     ...event,

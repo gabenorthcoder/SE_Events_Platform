@@ -18,12 +18,15 @@ export class AuthMiddlewareService {
   async verifyToken(token: string): Promise<{ valid: boolean; user?: User }> {
     try {
       const decoded = jwt.verify(token, JWT_SECRET) as Payload;
-      if (!decoded) {
+   
+  
+      if (!decoded || !decoded.id) {
         return { valid: false };
       }
       const userRepository = new UserRepository();
 
       const user = await userRepository.findUserById(decoded.id);
+
       return { valid: true, user };
     } catch (err) {
       return { valid: false };

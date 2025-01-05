@@ -10,7 +10,7 @@ adminDeleteUser.delete("/:id/delete", async (req: Request, res: Response) => {
     const { id } = req.params;
     const numericId = Number(id);
 
-    // Check if numericId is a positive integer
+ 
     if (!Number.isInteger(numericId) || numericId <= 0) {
       res.status(400).json({
         message: "Invalid ID. It must be a positive integer greater than 0.",
@@ -23,6 +23,7 @@ adminDeleteUser.delete("/:id/delete", async (req: Request, res: Response) => {
     res.status(200).json({ message: "User deleted successfully" });
   } catch (e: unknown) {
     const errorMessage = e instanceof Error ? e.message : String(e);
+   
     res.status(400).json({ message: errorMessage });
   }
 });

@@ -17,20 +17,18 @@ export class UpdateEventUseCase {
     data: updateEventInput,
     loggerUser: User
   ): Promise<Event> {
-    // Validate the event exists
+
     const event = await this.eventRepository.findEventById(eventId);
     if (!event) {
       logger.warn(`Event Update: Event with id ${eventId} not found`);
       throw new Error("Event not found");
     }
 
-    // Update only the fields provided in the input
     _.merge(event, data);
 
-    // Set the updatedBy field
+
     event.updatedBy = loggerUser;
 
-    // Save the changes
     return await this.eventRepository.updateEvent(event);
   }
 }

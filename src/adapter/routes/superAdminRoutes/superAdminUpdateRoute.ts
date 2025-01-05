@@ -133,5 +133,5 @@ superAdminUpdateRoute.put(
   updateAsSuperAdminUser
 );
 
-// Export the routes
+
 export { superAdminUpdateRoute };

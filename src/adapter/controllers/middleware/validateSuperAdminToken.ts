@@ -4,7 +4,7 @@ import { AuthMiddlewareService } from "../../../infrastructure/middleware/authMi
 declare global {
   namespace Express {
     interface Request {
-      user?: User; // Extend the Express Request type to include `user`
+      user?: User; 
     }
   }
 }
@@ -23,7 +23,7 @@ export const validateSuperAdminToken = async (
   const authMiddlewareService = new AuthMiddlewareService();
   const result = await authMiddlewareService.verifySuperAdminUserToken(token);
   if (result.valid && result.superAdminUser) {
-    // Attach decoded token to the request object
+
     req.user = result.superAdminUser;
     next();
   } else {

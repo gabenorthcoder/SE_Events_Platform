@@ -29,22 +29,22 @@ export class GoogleAuthUseCase {
   ): Promise<Partial<UserLoginSuccess>> {
     const { email, firstName, lastName } = profile;
 
-    // Check if the user already exists
+
     let user = await this.userRepository.findUserByEmail(email);
 
     if (!user) {
       const googleUser = new User();
       googleUser.email = email;
       googleUser.firstName = firstName;
-      googleUser.lastName = lastName;
+      googleUser.lastName = lastName
       googleUser.role = UserRole.USER;
       googleUser.authType = UserAuthType.GOOGLE;
 
-      // Create a new user if not found
+
       user = (await this.userRepository.createUser(googleUser)) as User;
     }
 
-    // Generate a JWT token for the user
+
     return await this.authService.generateTokenForUser(user);
   }
 }
