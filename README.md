@@ -8,8 +8,9 @@ Backend Production API Docs: https://goldfish-app-h4yjf.ondigitalocean.app/api-d
 
 FrontEnd Production:
 Home Page: https://events-platform-coral-rho.vercel.app
-Staff: https://events-platform-coral-rho.vercel/staff/login
-Admin: https://events-platform-coral-rho.vercel/admin/login
+Staff: https://events-platform-coral-rho.vercel.app/staff/login
+Admin: https://events-platform-coral-rho.vercel.app/admin/login
+Super Admin: https://events-platform-coral-rho.vercel.app/super-admin/login
 
 ## Features
 
