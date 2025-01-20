@@ -6,11 +6,22 @@ The Events Platform Backend is a Node.js application built with TypeScript and E
 
 Backend Production API Docs: https://goldfish-app-h4yjf.ondigitalocean.app/api-docs
 
-FrontEnd Production:
-Home Page: https://events-platform-coral-rho.vercel.app (Test Credentials: user@test.com, password123)
-<br>Staff: https://events-platform-coral-rho.vercel.app/staff/login (Test Credentials: test@test.com, password123)</br>
-Admin: https://events-platform-coral-rho.vercel.app/admin/login
-Super Admin: https://events-platform-coral-rho.vercel.app/super-admin/login
+## FrontEnd Production Links
+
+- **Home Page:** [https://events-platform-coral-rho.vercel.app](https://events-platform-coral-rho.vercel.app)  
+  - **Test Credentials:**  
+    - Email: `user@test.com`  
+    - Password: `password123`
+
+- **Staff Login:** [https://events-platform-coral-rho.vercel.app/staff/login](https://events-platform-coral-rho.vercel.app/staff/login)  
+  - **Test Credentials:**  
+    - Email: `test@test.com`  
+    - Password: `password123`
+
+- **Admin Login:** [https://events-platform-coral-rho.vercel.app/admin/login](https://events-platform-coral-rho.vercel.app/admin/login)
+
+- **Super Admin Login:** [https://events-platform-coral-rho.vercel.app/super-admin/login](https://events-platform-coral-rho.vercel.app/super-admin/login)
+
 
 ## Features
 
