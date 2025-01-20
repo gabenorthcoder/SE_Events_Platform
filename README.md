@@ -8,7 +8,7 @@ Backend Production API Docs: https://goldfish-app-h4yjf.ondigitalocean.app/api-d
 
 FrontEnd Production:
 Home Page: https://events-platform-coral-rho.vercel.app (Test Credentials: user@test.com, password123)
-Staff: https://events-platform-coral-rho.vercel.app/staff/login (Test Credentials: test@test.com, password123)
+<br>Staff: https://events-platform-coral-rho.vercel.app/staff/login (Test Credentials: test@test.com, password123)</br>
 Admin: https://events-platform-coral-rho.vercel.app/admin/login
 Super Admin: https://events-platform-coral-rho.vercel.app/super-admin/login
 
