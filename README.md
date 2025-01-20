@@ -7,8 +7,8 @@ The Events Platform Backend is a Node.js application built with TypeScript and E
 Backend Production API Docs: https://goldfish-app-h4yjf.ondigitalocean.app/api-docs
 
 FrontEnd Production:
-Home Page: https://events-platform-coral-rho.vercel.app
-Staff: https://events-platform-coral-rho.vercel.app/staff/login
+Home Page: https://events-platform-coral-rho.vercel.app (Test Credentials: user@test.com, password123)
+Staff: https://events-platform-coral-rho.vercel.app/staff/login (Test Credentials: test@test.com, password123)
 Admin: https://events-platform-coral-rho.vercel.app/admin/login
 Super Admin: https://events-platform-coral-rho.vercel.app/super-admin/login
 
@@ -101,7 +101,7 @@ Super Admin: https://events-platform-coral-rho.vercel.app/super-admin/login
 
 The API is documented using Swagger. Once the server is running, you can access the documentation at:
 
-https://eventify-backend-c7ua.onrender.com/api-docs/
+https://goldfish-app-h4yjf.ondigitalocean.app/api-docs
 
 ## Testing
 
